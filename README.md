@@ -7,7 +7,6 @@
 </p>
 
 [![Version](https://img.shields.io/npm/v/itty-packager.svg?style=flat-square)](https://npmjs.com/package/itty-packager)
-[![Coverage Status](https://img.shields.io/coveralls/github/kwhitley/itty-packager?style=flat-square)](https://coveralls.io/github/kwhitley/itty-packager)
 [![Issues](https://img.shields.io/github/issues/kwhitley/itty-packager?style=flat-square)](https://github.com/kwhitley/itty-packager/issues)
 [![Discord](https://img.shields.io/discord/832353585802903572?label=Discord&logo=Discord&style=flat-square&logoColor=fff)](https://discord.gg/53vyrZAu9u)
 
