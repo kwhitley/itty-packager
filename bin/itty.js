@@ -5,8 +5,8 @@ import { parseArgs } from 'node:util'
 const subcommands = {
   build: () => import('../lib/commands/build.js').then(m => m.buildCommand),
   lint: () => import('../lib/commands/lint.js').then(m => m.lintCommand),
+  publish: () => import('../lib/commands/publish.js').then(m => m.publishCommand),
   // Future subcommands can be added here:
-  // release: () => import('../lib/commands/release.js').then(m => m.releaseCommand),
   // deploy: () => import('../lib/commands/deploy.js').then(m => m.deployCommand),
 }
 
@@ -73,6 +73,7 @@ Usage: itty <subcommand> [options]
 Subcommands:
   build     Build your library with rollup and typescript
   lint      Lint your code with ESLint
+  publish   Version and publish your package to npm
 
 Global Options:
   -h, --help      Show help
@@ -84,6 +85,7 @@ Examples:
   itty lint                               # Lint entire project (smart exclusions)
   itty lint src                           # Lint only the src directory
   itty lint --fix                         # Lint and fix issues automatically
+  itty publish --patch                    # Version bump and publish from dist/
   itty build --help                       # Show build-specific help
 
 Run 'itty <subcommand> --help' for subcommand-specific options.
