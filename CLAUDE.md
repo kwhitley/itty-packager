@@ -11,9 +11,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Release Commands
 - `bun bin/itty.js publish --patch --tag --dry-run --src=. --no-license` - Dry run release
-- `bun bin/itty.js publish --patch --tag --push --src=. --no-license` - Patch release
+- `bun bin/itty.js publish --patch --tag --push --src=. --no-license` - Patch release (quiet by default)
 - `bun bin/itty.js publish --minor --tag --push --src=. --no-license` - Minor release
 - `bun bin/itty.js publish --major --tag --push --src=. --no-license` - Major release
+- Add `--verbose` flag to any command for detailed output including npm and git details
 
 ### CLI Usage
 The main CLI entry point is `bin/itty.js` which provides three core commands:

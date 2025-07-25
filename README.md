@@ -138,6 +138,7 @@ Version bump and publish your package to npm with clean, flat package structure.
 - `--no-cleanup` - Leave temporary directory after publishing
 - `--public` - Publish as public package (`--access=public`)
 - `--no-license` - Do not copy LICENSE file to published package
+- `-v, --verbose` - Show detailed output including npm and git command details
 
 **Git Options:**
 - `--tag` - Create git tag for release
@@ -157,6 +158,7 @@ itty publish                   # Patch bump and publish from dist/ (default)
 itty publish --minor --tag     # Minor bump, publish, and create git tag
 itty publish --type=alpha      # Pre-release alpha version
 itty publish --dry-run         # Test the publish process
+itty publish --verbose         # Show detailed output during publish
 itty publish --no-license      # Publish without copying LICENSE file
 ```
 
