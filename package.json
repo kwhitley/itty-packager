@@ -1,24 +1,42 @@
 {
   "name": "itty-packager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Universal build tool for itty libraries",
   "type": "module",
   "bin": {
     "itty": "./bin/itty.js"
   },
   "scripts": {
-    "dev": "node bin/itty-packager.js",
-    "test": "echo 'No tests yet'"
+    "lint": "bun bin/itty.js lint",
+    "test": "echo 'No tests yet'",
+    "release:dry": "bun bin/itty.js publish --patch --tag --dry-run --src=. --no-license --no-changelog",
+    "release": "bun bin/itty.js publish --patch --tag --push --src=. --no-license --no-changelog",
+    "release:minor": "bun bin/itty.js publish --minor --tag --push --src=. --no-license --no-changelog",
+    "release:major": "bun bin/itty.js publish --major --tag --push --src=. --no-license --no-changelog"
   },
   "keywords": [
     "build",
     "rollup",
     "typescript",
+    "eslint",
+    "publish",
+    "cli",
+    "tool",
     "itty"
   ],
   "author": "Kevin R. Whitley <krwhitley@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwhitley/itty-packager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kwhitley/itty-packager/issues"
+  },
+  "homepage": "https://github.com/kwhitley/itty-packager#readme",
   "dependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.17.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
