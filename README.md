@@ -2,23 +2,22 @@
 
 <p>
 <a href="https://itty.dev/itty-packager" target="_blank">
-  <img src="https://github.com/user-attachments/assets/placeholder-image" alt="itty-packager" height="120" />
+  <img src="https://ity.sh/WtTvnDwJ" alt="itty-packager" height="120" />
 </a>
 </p>
 
 [![Version](https://img.shields.io/npm/v/itty-packager.svg?style=flat-square)](https://npmjs.com/package/itty-packager)
-[![Bundle Size](https://deno.bundlejs.com/?q=itty-packager&badge&badge-style=flat-square)](https://deno.bundlejs.com/?q=itty-packager)
 [![Coverage Status](https://img.shields.io/coveralls/github/kwhitley/itty-packager?style=flat-square)](https://coveralls.io/github/kwhitley/itty-packager)
 [![Issues](https://img.shields.io/github/issues/kwhitley/itty-packager?style=flat-square)](https://github.com/kwhitley/itty-packager/issues)
 [![Discord](https://img.shields.io/discord/832353585802903572?label=Discord&logo=Discord&style=flat-square&logoColor=fff)](https://discord.gg/53vyrZAu9u)
 
-### [Documentation](https://itty.dev) &nbsp;| &nbsp; [Discord](https://discord.gg/53vyrZAu9u)
+### [Documentation](https://itty.dev/itty-packager) &nbsp;| &nbsp; [Discord](https://discord.gg/53vyrZAu9u)
 
 ---
 
-# Universal toolkit for itty libraries
+# Single dependency build + publish for TypeScript libraries.
 
-Zero-config build, lint, and publish workflows for TypeScript libraries.
+Zero-config build, lint, and publish - letting you deliver packages with minimal files and minimal bytes.
 
 ## Features
 
