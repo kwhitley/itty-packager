@@ -1,0 +1,33 @@
+{
+  "name": "itty-packager",
+  "version": "1.0.0",
+  "description": "Universal build tool for itty libraries",
+  "type": "module",
+  "bin": {
+    "itty": "./bin/itty.js"
+  },
+  "scripts": {
+    "dev": "node bin/itty-packager.js",
+    "test": "echo 'No tests yet'"
+  },
+  "keywords": [
+    "build",
+    "rollup",
+    "typescript",
+    "itty"
+  ],
+  "author": "Kevin R. Whitley <krwhitley@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "fs-extra": "^11.2.0",
+    "globby": "^14.1.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.28.1",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-copy": "^3.5.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.2"
+  }
+}
