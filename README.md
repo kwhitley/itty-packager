@@ -138,7 +138,6 @@ Version bump and publish your package to npm with clean, flat package structure.
 - `--no-cleanup` - Leave temporary directory after publishing
 - `--public` - Publish as public package (`--access=public`)
 - `--no-license` - Do not copy LICENSE file to published package
-- `--no-changelog` - Do not copy CHANGELOG.md file to published package
 
 **Git Options:**
 - `--tag` - Create git tag for release
@@ -148,7 +147,7 @@ Version bump and publish your package to npm with clean, flat package structure.
 **Default Behavior:**
 - Defaults to patch version bump if no type specified
 - Extracts build artifacts to temporary directory
-- Copies root files: `README.md`, `LICENSE`, `CHANGELOG.md`, `.npmrc` (if they exist)
+- Copies root files: `README.md`, `LICENSE`, `.npmrc` (if they exist)
 - Transforms package.json paths (e.g., `./dist/file.mjs` → `./file.mjs`)
 - Creates clean, flat package structure in node_modules
 
@@ -166,7 +165,7 @@ itty publish --no-license      # Publish without copying LICENSE file
 The publish command creates a clean package structure by:
 
 1. **Extracting build artifacts** from your `dist/` directory to package root
-2. **Copying essential files** like README, LICENSE, CHANGELOG
+2. **Copying essential files** like README, LICENSE
 3. **Transforming paths** in package.json to point to root-level files
 4. **Publishing the clean structure** so users get flat imports
 

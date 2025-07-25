@@ -1,6 +1,6 @@
 {
   "name": "itty-packager",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Universal build tool for itty libraries",
   "type": "module",
   "bin": {
@@ -9,10 +9,10 @@
   "scripts": {
     "lint": "bun bin/itty.js lint",
     "test": "echo 'No tests yet'",
-    "release:dry": "bun bin/itty.js publish --patch --tag --dry-run --src=. --no-license --no-changelog",
-    "release": "bun bin/itty.js publish --patch --tag --push --src=. --no-license --no-changelog",
-    "release:minor": "bun bin/itty.js publish --minor --tag --push --src=. --no-license --no-changelog",
-    "release:major": "bun bin/itty.js publish --major --tag --push --src=. --no-license --no-changelog"
+    "release:dry": "bun bin/itty.js publish --patch --tag --dry-run --src=. --no-license",
+    "release": "bun bin/itty.js publish --patch --tag --push --src=. --no-license",
+    "release:minor": "bun bin/itty.js publish --minor --tag --push --src=. --no-license",
+    "release:major": "bun bin/itty.js publish --major --tag --push --src=. --no-license"
   },
   "keywords": [
     "build",
