@@ -6,7 +6,7 @@ const subcommands = {
   build: () => import('../lib/commands/build.js').then(m => m.buildCommand),
   lint: () => import('../lib/commands/lint.js').then(m => m.lintCommand),
   prepare: () => import('../lib/commands/prepare.js').then(m => m.prepareCommand),
-  publish: () => import('../lib/commands/publish.js').then(m => m.publishCommand),
+  release: () => import('../lib/commands/release.js').then(m => m.releaseCommand),
   // Future subcommands can be added here:
   // deploy: () => import('../lib/commands/deploy.js').then(m => m.deployCommand),
 }
@@ -75,7 +75,7 @@ Subcommands:
   build     Build your library with rollup and typescript
   lint      Lint your code with ESLint
   prepare   Run lint, test, and build in sequence
-  publish   Version and publish your package to npm
+  release   Version and release your package to npm
 
 Global Options:
   -h, --help      Show help
@@ -87,7 +87,7 @@ Examples:
   itty lint                               # Lint entire project (smart exclusions)
   itty lint src                           # Lint only the src directory
   itty lint --fix                         # Lint and fix issues automatically
-  itty publish --patch                    # Version bump and publish from dist/
+  itty release --patch                    # Version bump and release from dist/
   itty build --help                       # Show build-specific help
 
 Run 'itty <subcommand> --help' for subcommand-specific options.
