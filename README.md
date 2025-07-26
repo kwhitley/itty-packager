@@ -6,6 +6,7 @@
 </a>
 </p>
 
+[![GitHub](https://img.shields.io/badge/GitHub-%23555.svg?style=flat-square&logo=github&logoColor=#fff)](https://github.com/kwhitley/itty-packager)
 [![Version](https://img.shields.io/npm/v/itty-packager.svg?style=flat-square)](https://npmjs.com/package/itty-packager)
 [![Issues](https://img.shields.io/github/issues/kwhitley/itty-packager?style=flat-square)](https://github.com/kwhitley/itty-packager/issues)
 [![Discord](https://img.shields.io/discord/832353585802903572?label=Discord&logo=Discord&style=flat-square&logoColor=fff)](https://discord.gg/53vyrZAu9u)
@@ -58,7 +59,7 @@ Build your TypeScript library with Rollup, TypeScript compilation, and optional 
 
 **Options:**
 - `-f, --from <dir>` - Source directory (default: `src`)
-- `-o, --out <dir>` - Output directory (default: `dist`) 
+- `-o, --out <dir>` - Output directory (default: `dist`)
 - `-c, --copy <files>` - Files to copy to output (comma-separated)
 - `--sourcemap` - Generate source maps (default: `false`)
 - `--hybrid` - Build both ESM and CJS (default: ESM only)
@@ -77,7 +78,7 @@ Build your TypeScript library with Rollup, TypeScript compilation, and optional 
 **Examples:**
 ```bash
 itty build                              # Basic ESM build, minified
-itty build --hybrid --sourcemap        # Build both ESM/CJS with sourcemaps  
+itty build --hybrid --sourcemap        # Build both ESM/CJS with sourcemaps
 itty build --snippet=connect           # Build with snippet generation for README
 itty build --from=lib --out=build      # Build from lib/ to build/
 ```
@@ -217,7 +218,7 @@ LICENSE
 
 **After (in node_modules):**
 ```
-package.json exports: "./connect.mjs"  
+package.json exports: "./connect.mjs"
 connect.mjs
 README.md
 LICENSE
