@@ -41,10 +41,9 @@ Add to your `package.json` scripts:
 ```json
 {
   "scripts": {
-    "build": "itty build",
+    "build": "itty build --hybrid",
     "lint": "itty lint",
-    "prepare": "itty prepare",
-    "release": "itty release"
+    "release": "itty release --prepare"
   }
 }
 ```
