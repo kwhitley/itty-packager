@@ -1,6 +1,6 @@
 {
   "name": "itty-packager",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Universal build tool for itty libraries",
   "type": "module",
   "bin": {
