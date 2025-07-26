@@ -5,6 +5,7 @@ import { parseArgs } from 'node:util'
 const subcommands = {
   build: () => import('../lib/commands/build.js').then(m => m.buildCommand),
   lint: () => import('../lib/commands/lint.js').then(m => m.lintCommand),
+  prepare: () => import('../lib/commands/prepare.js').then(m => m.prepareCommand),
   publish: () => import('../lib/commands/publish.js').then(m => m.publishCommand),
   // Future subcommands can be added here:
   // deploy: () => import('../lib/commands/deploy.js').then(m => m.deployCommand),
@@ -73,6 +74,7 @@ Usage: itty <subcommand> [options]
 Subcommands:
   build     Build your library with rollup and typescript
   lint      Lint your code with ESLint
+  prepare   Run lint, test, and build in sequence
   publish   Version and publish your package to npm
 
 Global Options:
