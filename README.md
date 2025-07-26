@@ -14,15 +14,16 @@
 
 ---
 
-# Single dependency build + publish for TypeScript libraries.
+# Single dependency build + release for TypeScript libraries.
 
-Zero-config build, lint, and publish - letting you deliver packages with minimal files and minimal bytes.
+Zero-config build, lint, prepare, and release - letting you deliver packages with minimal files and minimal bytes.
 
 ## Features
 
 - **🔨 Build** - TypeScript compilation with Rollup, minification, and snippet generation
 - **🔍 Lint** - Built-in ESLint configuration with TypeScript support and smart extending
-- **📦 Publish** - Automated version bumping, clean package extraction, and npm publishing
+- **🚀 Prepare** - Run lint, test, and build in sequence to verify your package
+- **📦 Release** - Automated version bumping, git operations, and npm publishing with interactive commit messages
 - **⚡ Zero Config** - Works out of the box, customize only what you need
 - **🎯 Consistent** - Unified tooling across all itty projects
 
@@ -40,8 +41,9 @@ Add to your `package.json` scripts:
 {
   "scripts": {
     "build": "itty build",
-    "lint": "itty lint", 
-    "publish": "itty publish"
+    "lint": "itty lint",
+    "prepare": "itty prepare",
+    "release": "itty release"
   }
 }
 ```
@@ -119,11 +121,34 @@ itty lint --fix             # Lint and auto-fix issues
 itty lint --format=json     # Output results in JSON format
 ```
 
-### `itty publish`
+### `itty prepare`
 
-Version bump and publish your package to npm with clean, flat package structure.
+Run lint, test, and build in sequence to prepare your package for release.
 
-**Usage:** `itty publish [options]`
+**Usage:** `itty prepare [options]`
+
+**Options:**
+- `-v, --verbose` - Show all output from underlying commands
+- `-h, --help` - Show help
+
+**Default Behavior:**
+- Runs `lint` using package.json script or built-in command
+- Runs `test` using package.json script (skips if not found)
+- Runs `build` using package.json script or built-in command (skips if no src/ directory)
+- Shows only progress messages unless `--verbose` is used
+- Stops on first failure and shows error output
+
+**Examples:**
+```bash
+itty prepare           # Run lint, test, build silently (show only failures)
+itty prepare --verbose # Run with full output from all commands
+```
+
+### `itty release`
+
+Version bump and release your package to npm with git operations and clean, flat package structure.
+
+**Usage:** `itty release [options]`
 
 **Version Options (default: patch):**
 - `--major` - Major release X.#.# for breaking changes
@@ -131,19 +156,28 @@ Version bump and publish your package to npm with clean, flat package structure.
 - `--patch` - Patch release #.#.X for bug fixes (default)
 - `--type <type>` - Custom release type (alpha, beta, rc, etc.)
 
-**Publish Options:**
-- `--src <dir>` - Source directory to publish from (default: `dist`)
-- `--dest <dir>` - Temporary directory for publishing (default: `.dist`)
+**Release Options:**
+- `--src <dir>` - Source directory to release from (default: `dist`)
+- `--root` - Release from root directory (equivalent to `--src=.`)
+- `--dest <dir>` - Temporary directory for releasing (default: `.dist`)
 - `--dry-run` - Build and prepare but do not publish
-- `--no-cleanup` - Leave temporary directory after publishing
+- `--no-cleanup` - Leave temporary directory after releasing
 - `--public` - Publish as public package (`--access=public`)
+- `--prepare` - Run prepare (lint, test, build) before releasing
+- `--silent` - Skip interactive prompts (use default commit message)
 - `--no-license` - Do not copy LICENSE file to published package
 - `-v, --verbose` - Show detailed output including npm and git command details
 
 **Git Options:**
 - `--tag` - Create git tag for release
-- `--push` - Push changes and tags to git remote
+- `--push` - Push changes and tags to git remote (prompts for commit message)
 - `--no-git` - Skip all git operations
+
+**Interactive Features:**
+- When using `--push`, you'll be prompted for an optional commit message
+- Press Enter to skip, Escape or Ctrl+C to cancel and revert version
+- Multi-line commit messages supported
+- Git tag uses the same message as the commit
 
 **Default Behavior:**
 - Defaults to patch version bump if no type specified
@@ -154,17 +188,19 @@ Version bump and publish your package to npm with clean, flat package structure.
 
 **Examples:**
 ```bash
-itty publish                   # Patch bump and publish from dist/ (default)
-itty publish --minor --tag     # Minor bump, publish, and create git tag
-itty publish --type=alpha      # Pre-release alpha version
-itty publish --dry-run         # Test the publish process
-itty publish --verbose         # Show detailed output during publish
-itty publish --no-license      # Publish without copying LICENSE file
+itty release                   # Patch bump and release from dist/ (default)
+itty release --minor --tag     # Minor bump, release, and create git tag
+itty release --type=alpha      # Pre-release alpha version
+itty release --root            # Release from root directory
+itty release --prepare --push  # Run prepare, then release with git operations
+itty release --dry-run         # Test the release process
+itty release --verbose         # Show detailed output during release
+itty release --silent --push   # Release with git operations, no interactive prompts
 ```
 
 ## Package Structure
 
-The publish command creates a clean package structure by:
+The release command creates a clean package structure by:
 
 1. **Extracting build artifacts** from your `dist/` directory to package root
 2. **Copying essential files** like README, LICENSE
@@ -208,7 +244,8 @@ Add itty-packager to your scripts for easy access:
   "scripts": {
     "build": "itty build --snippet=mylib --hybrid",
     "lint": "itty lint",
-    "publish": "itty publish --tag --push"
+    "prepare": "itty prepare",
+    "release": "itty release --prepare --tag --push"
   }
 }
 ```
