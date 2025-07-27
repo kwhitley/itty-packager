@@ -30,7 +30,7 @@ export class CLITestRunner {
       const cwd = options.cwd || process.cwd()
       // Use absolute path to the itty.js script from the project root
       // Always resolve relative to this file's directory
-      const projectRoot = path.join(__dirname, '..', '..')
+      const projectRoot = path.join(__dirname, '..')
       const ittyScript = path.join(projectRoot, 'bin/itty.js')
 
       const proc = spawn('bun', [ittyScript, ...args], {

@@ -7,7 +7,7 @@ import {
   type TestTree,
   expectFile,
   runTestTree
-} from './utils'
+} from '../utils/test-utils'
 
 const cli = new CLITestRunner()
 

@@ -4,7 +4,7 @@ import {
   ProjectFixture,
   type TestTree,
   runTestTree
-} from './utils'
+} from '../utils/test-utils'
 
 const cli = new CLITestRunner()
 
