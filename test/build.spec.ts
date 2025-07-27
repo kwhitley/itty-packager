@@ -1,12 +1,12 @@
-import { describe, expect, it, afterAll } from 'bun:test'
+import { afterAll, expect } from 'bun:test'
 import path from 'node:path'
-import { 
-  type TestTree, 
-  runTestTree, 
-  CLITestRunner, 
-  ProjectFixture, 
-  expectFile
-} from './test-utils'
+import {
+  CLITestRunner,
+  ProjectFixture,
+  type TestTree,
+  expectFile,
+  runTestTree
+} from './utils'
 
 const cli = new CLITestRunner()
 
@@ -28,7 +28,7 @@ const tests: TestTree = {
         const project = await ProjectFixture.create('no-src', {
           'package.json': JSON.stringify({ name: 'test', version: '1.0.0' }, null, 2)
         })
-        
+
         const result = await cli.run(['build'], { cwd: project.dir })
         expect(result.exitCode).not.toBe(0)
         expect(result.stderr).toContain('TypeScript files found')
@@ -45,7 +45,7 @@ const tests: TestTree = {
             type: 'module'
           }, null, 2)
         })
-        
+
         const result = await cli.run(['build'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         await expectFile(path.join(project.dir, 'dist/index.mjs')).toExist()
@@ -62,7 +62,7 @@ const tests: TestTree = {
             type: 'module'
           }, null, 2)
         })
-        
+
         const result = await cli.run(['build', '--from=lib', '--out=build'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         await expectFile(path.join(project.dir, 'build/main.mjs')).toExist()

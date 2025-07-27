@@ -2,6 +2,7 @@ import { spawn, type ChildProcess } from 'node:child_process'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { tmpdir } from 'node:os'
+import { describe, it } from 'bun:test'
 
 // Test tree types for hierarchical organization
 export type TestLeaf = () => void | Promise<void>
@@ -28,9 +29,10 @@ export class CLITestRunner {
     return new Promise((resolve, reject) => {
       const cwd = options.cwd || process.cwd()
       // Use absolute path to the itty.js script from the project root
-      const projectRoot = process.cwd()
+      // Always resolve relative to this file's directory
+      const projectRoot = path.join(__dirname, '..', '..')
       const ittyScript = path.join(projectRoot, 'bin/itty.js')
-      
+
       const proc = spawn('bun', [ittyScript, ...args], {
         cwd,
         stdio: 'pipe',
@@ -103,7 +105,8 @@ export class ProjectFixture {
       cleanup: async () => {
         try {
           await fs.rm(dir, { recursive: true, force: true })
-        } catch (error) {
+        } catch (error: any) {
+          console.error('Error cleaning up test project:', error)
           // Ignore cleanup errors
         }
       }
@@ -122,8 +125,6 @@ export class ProjectFixture {
 // Test runner that traverses the test tree
 export const runTestTree = (tests: TestTree) => {
   // Import from bun:test at runtime
-  const { describe, it } = require('bun:test')
-
   for (const [name, test] of Object.entries(tests)) {
     if (typeof test === 'function') {
       // Detect async vs sync tests

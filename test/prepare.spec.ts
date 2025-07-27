@@ -1,10 +1,10 @@
-import { describe, expect, it, afterAll } from 'bun:test'
-import { 
-  type TestTree, 
-  runTestTree, 
-  CLITestRunner, 
-  ProjectFixture 
-} from './test-utils'
+import { afterAll, expect } from 'bun:test'
+import {
+  CLITestRunner,
+  ProjectFixture,
+  type TestTree,
+  runTestTree
+} from './utils'
 
 const cli = new CLITestRunner()
 
@@ -25,7 +25,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('Running prepare sequence')
@@ -46,7 +46,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         // Should not show detailed output from scripts
@@ -68,7 +68,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare', '--verbose'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         // Should show detailed output from all scripts
@@ -89,7 +89,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('Running built-in lint')
@@ -106,7 +106,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('No test script found, skipping tests')
@@ -122,7 +122,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('No build script or src directory found, skipping build')
@@ -142,7 +142,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).not.toBe(0)
         expect(result.stderr).toContain('Lint failed')
@@ -162,7 +162,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).not.toBe(0)
         expect(result.stderr).toContain('Tests failed')
@@ -180,7 +180,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['prepare'], { cwd: project.dir })
         expect(result.exitCode).not.toBe(0)
         expect(result.stdout).toContain('test error details')

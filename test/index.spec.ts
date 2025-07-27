@@ -1,9 +1,9 @@
-import { describe, expect, it, afterAll } from 'bun:test'
-import { 
-  type TestTree, 
-  runTestTree, 
-  CLITestRunner 
-} from './test-utils'
+import { afterAll, expect } from 'bun:test'
+import {
+  CLITestRunner,
+  type TestTree,
+  runTestTree
+} from './utils'
 
 const cli = new CLITestRunner()
 
@@ -42,7 +42,7 @@ const tests: TestTree = {
     'subcommand help': {
       'each command shows help with --help': async () => {
         const commands = ['build', 'lint', 'prepare', 'release']
-        
+
         for (const command of commands) {
           const result = await cli.run([command, '--help'])
           expect(result.exitCode).toBe(0)
@@ -63,7 +63,7 @@ afterAll(async () => {
 
 // Import all other test files to run them
 import './build.spec'
+import './cli-integration.spec'
 import './lint.spec'
 import './prepare.spec'
 import './release.spec'
-import './cli-integration.spec'

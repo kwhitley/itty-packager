@@ -1,12 +1,13 @@
-import { describe, expect, it, afterAll } from 'bun:test'
+import { afterAll, expect } from 'bun:test'
+import * as fs from 'node:fs'
 import path from 'node:path'
-import { 
-  type TestTree, 
-  runTestTree, 
-  CLITestRunner, 
-  ProjectFixture, 
-  expectFile 
-} from './test-utils'
+import {
+  CLITestRunner,
+  ProjectFixture,
+  type TestTree,
+  expectFile,
+  runTestTree
+} from './utils'
 
 const cli = new CLITestRunner()
 
@@ -63,7 +64,7 @@ export function multiply(a: number, b: number): number {
         // Step 1: Build the project
         const buildResult = await cli.run(['build'], { cwd: project.dir })
         expect(buildResult.exitCode).toBe(0)
-        
+
         // Verify build outputs exist
         await expectFile(path.join(project.dir, 'dist/index.mjs')).toExist()
         await expectFile(path.join(project.dir, 'dist/utils.mjs')).toExist()
@@ -80,8 +81,8 @@ export function multiply(a: number, b: number): number {
 
         // Step 4: Dry run release to verify package structure
         const releaseResult = await cli.run([
-          'release', 
-          '--dry-run', 
+          'release',
+          '--dry-run',
           '--no-git',
           '--no-cleanup'
         ], { cwd: project.dir })
@@ -96,8 +97,8 @@ export function multiply(a: number, b: number): number {
         await expectFile(path.join(distDir, 'LICENSE')).toExist()
 
         // Verify package.json transformation
-        const packageJsonContent = require('fs').readFileSync(
-          path.join(distDir, 'package.json'), 
+        const packageJsonContent = fs.readFileSync(
+          path.join(distDir, 'package.json'),
           'utf-8'
         )
         const packageJson = JSON.parse(packageJsonContent)
@@ -133,15 +134,15 @@ export default function main() {
         // Build with hybrid mode
         const buildResult = await cli.run(['build', '--hybrid'], { cwd: project.dir })
         expect(buildResult.exitCode).toBe(0)
-        
+
         // Should have both ESM and CJS outputs
         await expectFile(path.join(project.dir, 'dist/main.mjs')).toExist()
         await expectFile(path.join(project.dir, 'dist/main.cjs')).toExist()
 
         // Release should work with hybrid build
         const releaseResult = await cli.run([
-          'release', 
-          '--dry-run', 
+          'release',
+          '--dry-run',
           '--no-git'
         ], { cwd: project.dir })
         expect(releaseResult.exitCode).toBe(0)
@@ -167,14 +168,14 @@ export default function main() {
         })
 
         const result = await cli.run([
-          'release', 
+          'release',
           '--root',
-          '--dry-run', 
+          '--dry-run',
           '--no-git',
           '--no-cleanup',
           '--verbose'
         ], { cwd: project.dir })
-        
+
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('Source: ./')
 
@@ -202,15 +203,15 @@ export default function main() {
 
         // Release with --prepare should fail due to failing test
         const result = await cli.run([
-          'release', 
+          'release',
           '--prepare',
-          '--dry-run', 
+          '--dry-run',
           '--no-git'
         ], { cwd: project.dir })
-        
+
         expect(result.exitCode).not.toBe(0)
         expect(result.stderr).toContain('Command failed')
-        
+
         // Should not reach the release phase
         expect(result.stdout).not.toContain('Publishing to npm')
       }

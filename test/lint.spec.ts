@@ -1,10 +1,10 @@
-import { describe, expect, it, afterAll } from 'bun:test'
-import { 
-  type TestTree, 
-  runTestTree, 
-  CLITestRunner, 
-  ProjectFixture
-} from './test-utils'
+import { afterAll, expect } from 'bun:test'
+import {
+  CLITestRunner,
+  ProjectFixture,
+  type TestTree,
+  runTestTree
+} from './utils'
 
 const cli = new CLITestRunner()
 
@@ -27,7 +27,7 @@ const tests: TestTree = {
           'src/clean.ts': `export const greet = (name: string) => \`Hello, \${name}!\``,
           'package.json': JSON.stringify({ name: 'test', version: '1.0.0' }, null, 2)
         })
-        
+
         const result = await cli.run(['lint'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('Using built-in ESLint config')
@@ -40,7 +40,7 @@ const tests: TestTree = {
           'src/good.ts': 'export const good = \'clean\'',
           'package.json': JSON.stringify({ name: 'test', version: '1.0.0' }, null, 2)
         })
-        
+
         const result = await cli.run(['lint', 'src/'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
       }

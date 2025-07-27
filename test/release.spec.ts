@@ -1,12 +1,13 @@
-import { describe, expect, it, afterAll } from 'bun:test'
+import { afterAll, expect } from 'bun:test'
+import * as fs from 'node:fs'
 import path from 'node:path'
-import { 
-  type TestTree, 
-  runTestTree, 
-  CLITestRunner, 
-  ProjectFixture, 
-  expectFile 
-} from './test-utils'
+import {
+  CLITestRunner,
+  ProjectFixture,
+  type TestTree,
+  expectFile,
+  runTestTree
+} from './utils'
 
 const cli = new CLITestRunner()
 
@@ -22,7 +23,7 @@ const tests: TestTree = {
             type: 'module'
           }, null, 2)
         })
-        
+
         const result = await cli.run(['release', '--dry-run', '--no-git'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('v1.2.3 → v1.2.4')
@@ -38,7 +39,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--major', '--dry-run', '--no-git'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('v1.2.3 → v2.0.0')
@@ -55,7 +56,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--minor', '--dry-run', '--no-git'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('v1.2.3 → v1.3.0')
@@ -72,7 +73,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--type=alpha', '--dry-run', '--no-git'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('v1.2.3 → v1.2.3-alpha.0')
@@ -92,7 +93,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--dry-run', '--no-git', '--verbose'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('Source: dist/')
@@ -109,7 +110,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--root', '--dry-run', '--no-git', '--verbose'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('Source: ./')
@@ -126,7 +127,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--src=lib', '--dry-run', '--no-git', '--verbose'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('Source: lib/')
@@ -145,7 +146,7 @@ const tests: TestTree = {
               type: 'module'
             }, null, 2)
           })
-          
+
           const result = await cli.run(['release', '--dry-run', '--no-git'], { cwd: project.dir })
           expect(result.exitCode).toBe(0)
           expect(result.stdout).toContain('Dry run - skipping publish')
@@ -171,19 +172,19 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['release', '--dry-run', '--no-git', '--no-cleanup'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
-        
+
         // Check that temp directory was created with transformed structure
         const tempDir = path.join(project.dir, '.dist')
         await expectFile(path.join(tempDir, 'index.mjs')).toExist()
         await expectFile(path.join(tempDir, 'utils.mjs')).toExist()
         await expectFile(path.join(tempDir, 'README.md')).toExist()
         await expectFile(path.join(tempDir, 'LICENSE')).toExist()
-        
+
         // Check that package.json was transformed
-        const pkgContent = require('fs').readFileSync(path.join(tempDir, 'package.json'), 'utf-8')
+        const pkgContent = fs.readFileSync(path.join(tempDir, 'package.json'), 'utf-8')
         const pkg = JSON.parse(pkgContent)
         expect(pkg.exports).toEqual({
           '.': './index.mjs',
@@ -207,7 +208,7 @@ const tests: TestTree = {
             }
           }, null, 2)
         })
-        
+
         const result = await cli.run(['release', '--prepare', '--dry-run', '--no-git'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
         expect(result.stdout).toContain('🚀 Running prepare sequence...')
@@ -224,7 +225,7 @@ const tests: TestTree = {
             type: 'module'
           }, null, 2)
         })
-        
+
         const result = await cli.run(['release', '--dry-run', '--no-git'], { cwd: project.dir })
         expect(result.exitCode).not.toBe(0)
         expect(result.stderr).toContain('Source directory "dist" does not exist')
@@ -238,18 +239,18 @@ const tests: TestTree = {
             type: 'module'
           }, null, 2)
         })
-        
+
         // Simulate a failure during release (missing dist directory)
         const result = await cli.run([
-          'release', 
+          'release',
           '--no-git'
         ], { cwd: project.dir })
-        
+
         expect(result.exitCode).not.toBe(0)
         expect(result.stderr).toContain('Source directory "dist" does not exist')
-        
+
         // Verify version was reverted back to original
-        const pkgContent = require('fs').readFileSync(path.join(project.dir, 'package.json'), 'utf-8')
+        const pkgContent = fs.readFileSync(path.join(project.dir, 'package.json'), 'utf-8')
         const pkg = JSON.parse(pkgContent)
         expect(pkg.version).toBe('1.0.0')
       }
