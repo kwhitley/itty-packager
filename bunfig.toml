@@ -1,0 +1,17 @@
+# Bun configuration for itty-packager testing
+
+[test]
+# Coverage configuration
+coverage = true
+coverageDir = "./coverage"
+coverageReporters = ["text", "lcov", "html"]
+coverageThreshold = 80
+
+# Test patterns
+testNamePattern = ".*\\.(test|spec)\\.(js|ts|tsx)$"
+
+# Timeout for tests (30 seconds for CLI tests that might be slow)
+timeout = 30000
+
+# Test environment
+env = "test"

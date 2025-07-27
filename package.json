@@ -8,7 +8,8 @@
   },
   "scripts": {
     "lint": "bun bin/itty.js lint",
-    "test": "echo 'No tests yet'",
+    "test": "bun test --coverage",
+    "test:watch": "bun test --watch --coverage",
     "release": "bun bin/itty.js release --patch --tag --push --root"
   },
   "keywords": [
