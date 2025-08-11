@@ -137,7 +137,7 @@ export default function main() {
 
         // Should have both ESM and CJS outputs
         await expectFile(path.join(project.dir, 'dist/main.mjs')).toExist()
-        await expectFile(path.join(project.dir, 'dist/main.cjs')).toExist()
+        await expectFile(path.join(project.dir, 'dist/main.js')).toExist()
 
         // Release should work with hybrid build
         const releaseResult = await cli.run([
