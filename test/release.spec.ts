@@ -63,6 +63,23 @@ const tests: TestTree = {
         }
       },
 
+      '--no-version': {
+        'skips bumping version': async () => {
+          const project = await ProjectFixture.create('no-version', {
+            'dist/index.mjs': 'export const test = "value"',
+            'package.json': JSON.stringify({
+              name: 'test-version',
+              version: '1.2.3',
+              type: 'module'
+            }, null, 2)
+          })
+
+          const result = await cli.run(['release', '--no-version', '--dry-run', '--no-git'], { cwd: project.dir })
+          expect(result.exitCode).toBe(0)
+          expect(result.stdout).toContain('v1.2.3 → v1.2.3')
+        }
+      },
+
       '--type=alpha': {
         'creates alpha pre-release': async () => {
           const project = await ProjectFixture.create('version-alpha', {

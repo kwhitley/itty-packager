@@ -155,6 +155,7 @@ Version bump and release your package to npm with git operations and clean, flat
 - `--major` - Major release X.#.# for breaking changes
 - `--minor` - Minor release #.X.# for feature additions
 - `--patch` - Patch release #.#.X for bug fixes (default)
+- `--no-version` - Skip version bump
 - `--type <type>` - Custom release type (alpha, beta, rc, etc.)
 
 **Release Options:**
