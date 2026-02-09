@@ -1,6 +1,6 @@
 {
   "name": "itty-packager",
-  "version": "1.6.13",
+  "version": "1.7.0",
   "description": "Universal build tool for itty libraries",
   "type": "module",
   "bin": {
@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "bun bin/itty.js lint",
     "dev": "bun test --coverage --watch",
-    "release": "bun bin/itty.js release --patch --tag --push --root"
+    "release": "bun bin/itty.js release --patch --tag --push --root --otp"
   },
   "keywords": [
     "build",
