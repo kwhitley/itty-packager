@@ -65,6 +65,7 @@ Build your TypeScript library with Rollup, TypeScript compilation, and optional 
 - `--hybrid` - Build both ESM and CJS (default: ESM only)
 - `--minify` - Minify output with terser (default: `true`)
 - `--no-minify` - Skip minification
+- `--release-from <dir>` - Release directory - exports relative to this (default: same as `--out`)
 - `-s, --snippet <name>` - Generate snippet file for README injection
 - `-h, --help` - Show help
 
@@ -72,15 +73,16 @@ Build your TypeScript library with Rollup, TypeScript compilation, and optional 
 - Compiles all TypeScript files from `src/` to `dist/`
 - Generates ESM (`.mjs`) output only
 - Minifies output by default
-- Updates `package.json` exports with correct paths
+- Updates `package.json` exports with correct paths (relative to the release directory)
 - Single file exports map to root export, multiple files get individual exports
 
 **Examples:**
 ```bash
 itty build                              # Basic ESM build, minified
-itty build --hybrid --sourcemap        # Build both ESM/CJS with sourcemaps
-itty build --snippet=connect           # Build with snippet generation for README
-itty build --from=lib --out=build      # Build from lib/ to build/
+itty build --hybrid --sourcemap         # Build both ESM/CJS with sourcemaps
+itty build --snippet=connect            # Build with snippet generation for README
+itty build --from=lib --out=build       # Build from lib/ to build/
+itty build --release-from=.             # Exports include output dir prefix (for root releasing)
 ```
 
 ### `itty lint`
@@ -184,7 +186,6 @@ Version bump and release your package to npm with git operations and clean, flat
 - Defaults to patch version bump if no type specified
 - Extracts build artifacts to temporary directory
 - Copies root files: `README.md`, `LICENSE`, `.npmrc` (if they exist)
-- Transforms package.json paths (e.g., `./dist/file.mjs` → `./file.mjs`)
 - Creates clean, flat package structure in node_modules
 
 **Examples:**
@@ -201,22 +202,22 @@ itty release --silent --push   # Release with git operations, no interactive pro
 
 ## Package Structure
 
-The release command creates a clean package structure by:
+The build + release commands work together to create a clean package structure:
 
-1. **Extracting build artifacts** from your `dist/` directory to package root
-2. **Copying essential files** like README, LICENSE
-3. **Transforming paths** in package.json to point to root-level files
-4. **Publishing the clean structure** so users get flat imports
+1. **Build** compiles to `dist/` and writes exports relative to the release directory (no `dist/` prefix by default)
+2. **Release** extracts build artifacts from `dist/` to a flat package root
+3. **Copies essential files** like README, LICENSE
+4. **Publishes the clean structure** so users get flat imports
 
-**Before (in your project):**
+**In your project:**
 ```
-package.json exports: "./dist/connect.mjs"
+package.json exports: "./connect.mjs"
 dist/connect.mjs
 README.md
 LICENSE
 ```
 
-**After (in node_modules):**
+**In node_modules (after publish):**
 ```
 package.json exports: "./connect.mjs"
 connect.mjs

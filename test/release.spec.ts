@@ -155,20 +155,20 @@ const tests: TestTree = {
       }
     },
 
-    'package structure transformation': {
-      'copies and transforms dist files': async () => {
-        const project = await ProjectFixture.create('package-transform', {
+    'package structure': {
+      'copies dist files and preserves exports': async () => {
+        const project = await ProjectFixture.create('package-structure', {
           'dist/index.mjs': 'export const main = "test"',
           'dist/utils.mjs': 'export const utils = "helper"',
           'README.md': '# Test Package',
           'LICENSE': 'MIT License',
           'package.json': JSON.stringify({
-            name: 'test-transform',
+            name: 'test-structure',
             version: '1.0.0',
             type: 'module',
             exports: {
-              '.': './dist/index.mjs',
-              './utils': './dist/utils.mjs'
+              '.': './index.mjs',
+              './utils': './utils.mjs'
             }
           }, null, 2)
         })
@@ -176,14 +176,14 @@ const tests: TestTree = {
         const result = await cli.run(['release', '--dry-run', '--no-git', '--no-cleanup'], { cwd: project.dir })
         expect(result.exitCode).toBe(0)
 
-        // Check that temp directory was created with transformed structure
+        // Check that temp directory was created with flat structure
         const tempDir = path.join(project.dir, '.dist')
         await expectFile(path.join(tempDir, 'index.mjs')).toExist()
         await expectFile(path.join(tempDir, 'utils.mjs')).toExist()
         await expectFile(path.join(tempDir, 'README.md')).toExist()
         await expectFile(path.join(tempDir, 'LICENSE')).toExist()
 
-        // Check that package.json was transformed
+        // Check that exports are preserved as-is (no transformation needed)
         const pkgContent = fs.readFileSync(path.join(tempDir, 'package.json'), 'utf-8')
         const pkg = JSON.parse(pkgContent)
         expect(pkg.exports).toEqual({

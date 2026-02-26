@@ -67,6 +67,40 @@ const tests: TestTree = {
         expect(result.exitCode).toBe(0)
         await expectFile(path.join(project.dir, 'build/main.mjs')).toExist()
       }
+    },
+
+    'export paths': {
+      'default: exports have no dist/ prefix': async () => {
+        const project = await ProjectFixture.create('exports-default', {
+          'src/index.ts': 'export const a = 1',
+          'package.json': JSON.stringify({
+            name: 'test-exports',
+            version: '1.0.0',
+            type: 'module'
+          }, null, 2)
+        })
+
+        await cli.run(['build'], { cwd: project.dir })
+        const pkg = JSON.parse(await Bun.file(path.join(project.dir, 'package.json')).text())
+        expect(pkg.exports['.'].import).toBe('./index.mjs')
+        expect(pkg.exports['.'].types).toBe('./index.d.ts')
+      },
+
+      '--release-from=. adds dist/ prefix': async () => {
+        const project = await ProjectFixture.create('exports-release-from', {
+          'src/index.ts': 'export const a = 1',
+          'package.json': JSON.stringify({
+            name: 'test-exports-root',
+            version: '1.0.0',
+            type: 'module'
+          }, null, 2)
+        })
+
+        await cli.run(['build', '--release-from=.'], { cwd: project.dir })
+        const pkg = JSON.parse(await Bun.file(path.join(project.dir, 'package.json')).text())
+        expect(pkg.exports['.'].import).toBe('./dist/index.mjs')
+        expect(pkg.exports['.'].types).toBe('./dist/index.d.ts')
+      }
     }
   }
 }
