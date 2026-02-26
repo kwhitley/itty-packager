@@ -183,7 +183,9 @@ Version bump and release your package to npm with git operations and clean, flat
 - Git tag uses the same message as the commit
 
 **Default Behavior:**
+- Verifies npm auth before making any changes (prompts for login if expired)
 - Defaults to patch version bump if no type specified
+- Publishes to npm before git operations (so failed publishes don't leave orphaned tags)
 - Extracts build artifacts to temporary directory
 - Copies root files: `README.md`, `LICENSE`, `.npmrc` (if they exist)
 - Creates clean, flat package structure in node_modules
